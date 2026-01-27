@@ -173,7 +173,7 @@ def main():
     reports_dir.mkdir(parents=True, exist_ok=True)
     
     # MLflow setup
-    mlflow.set_tracking_uri(f"file://{mlruns_dir.absolute()}")
+    mlflow.set_tracking_uri(mlruns_dir.absolute().as_uri())
     mlflow.set_experiment("cats_vs_dogs_classification")
     
     # Hyperparameters
