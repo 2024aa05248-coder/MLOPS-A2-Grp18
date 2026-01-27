@@ -5,11 +5,21 @@ This guide provides quick commands to get started with each part of Assignment 2
 ## Prerequisites
 
 ```bash
+# Initialize Git repository (required for DVC)
+git init
+git add .
+git commit -m "Initial commit"
+
 # Install Python dependencies
 pip install -r requirements.txt
 
 # Install DVC (for Part1)
 pip install dvc
+
+# Initialize DVC (must be run from root directory)
+dvc init
+git add .dvc .dvcignore
+git commit -m "Initialize DVC"
 ```
 
 ## Part 1: Model Development & Experiment Tracking
@@ -17,8 +27,7 @@ pip install dvc
 ```bash
 cd Part1
 
-# Initialize DVC
-dvc init
+# Add dataset to DVC
 dvc add ../PetImages
 
 # Preprocess data

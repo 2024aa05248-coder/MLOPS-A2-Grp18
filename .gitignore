@@ -42,9 +42,8 @@ mlruns/
 mlartifacts/
 
 # DVC
-.dvc/
-.dvcignore
-*.dvc
+.dvc/cache
+.dvc/tmp
 
 # Data (keep structure, ignore large files)
 *.csv
