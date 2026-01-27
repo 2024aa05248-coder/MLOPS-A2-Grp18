@@ -1,0 +1,243 @@
+# Assignment 2: End-to-End MLOps Pipeline for Image Classification
+
+## Project Overview
+
+A complete MLOps pipeline for binary image classification (Cats vs Dogs) for a pet adoption platform. This project demonstrates end-to-end machine learning workflow from model development to production deployment with CI/CD, containerization, and monitoring.
+
+### Use Case
+Binary image classification (Cats vs Dogs) for a pet adoption platform.
+
+### Dataset
+Cats and Dogs classification dataset (PetImages folder)
+- Pre-processed to 224x224 RGB images for standard CNNs
+- Split into train/validation/test sets (80%/10%/10%)
+- Data augmentation for better generalization
+
+---
+
+## Project Structure
+
+```
+Assignment2/
+├── README.md                    # This file
+├── PetImages/                   # Dataset (Cats and Dogs images)
+│   ├── Cat/                     # Cat images
+│   └── Dog/                     # Dog images
+├── Part1/                       # M1: Model Development & Experiment Tracking
+│   ├── src/                     # Source code
+│   ├── data/                    # Data directories (raw, interim, processed)
+│   ├── models/                  # Trained models
+│   ├── reports/                 # Visualizations and reports
+│   └── mlruns/                  # MLflow tracking data
+├── Part2/                       # M2: Model Packaging & Containerization
+│   ├── src/                     # FastAPI application
+│   ├── models/                  # Model files
+│   ├── Dockerfile              # Container definition
+│   └── requirements.txt        # Dependencies
+├── Part3/                       # M3: CI Pipeline
+│   ├── src/                     # Source code
+│   ├── tests/                   # Unit tests
+│   └── .github/workflows/       # GitHub Actions CI
+├── Part4/                       # M4: CD Pipeline & Deployment
+│   ├── k8s/                     # Kubernetes manifests
+│   ├── docker-compose/          # Docker Compose config
+│   └── src/                     # Deployment scripts
+└── Part5/                       # M5: Monitoring & Logs
+    ├── src/                     # Monitoring code
+    ├── config/                  # Monitoring configuration
+    └── dashboards/              # Grafana dashboards
+```
+
+---
+
+## Assignment Breakdown
+
+### Part 1: Model Development & Experiment Tracking (M1) - 10 Marks
+
+**Objective**: Build a baseline model, track experiments, and version all artifacts.
+
+**Tasks**:
+1. **Data & Code Versioning**
+   - Git for source code versioning
+   - DVC (or Git-LFS) for dataset versioning
+
+2. **Model Building**
+   - Implement baseline model (CNN or logistic regression)
+   - Save model in standard format (.pkl, .pt, .h5)
+
+3. **Experiment Tracking**
+   - MLflow/Neptune for logging runs, parameters, metrics, artifacts
+
+**See**: [Part1/README.md](Part1/README.md)
+
+---
+
+### Part 2: Model Packaging & Containerization (M2) - 10 Marks
+
+**Objective**: Package the trained model into a reproducible, containerized service.
+
+**Tasks**:
+1. **Inference Service**
+   - REST API with FastAPI/Flask
+   - Endpoints: `/health` and `/predict`
+
+2. **Environment Specification**
+   - requirements.txt with version pinning
+
+3. **Containerization**
+   - Dockerfile for containerization
+   - Build and test locally
+
+**See**: [Part2/README.md](Part2/README.md)
+
+---
+
+### Part 3: CI Pipeline (M3) - 10 Marks
+
+**Objective**: Implement Continuous Integration for automated testing and image building.
+
+**Tasks**:
+1. **Automated Testing**
+   - Unit tests for data preprocessing
+   - Unit tests for model inference
+   - pytest for test execution
+
+2. **CI Setup**
+   - GitHub Actions / GitLab CI / Jenkins / Tekton
+   - Pipeline: checkout → install → test → build image
+
+3. **Artifact Publishing**
+   - Push Docker image to registry (Docker Hub, GHCR)
+
+**See**: [Part3/README.md](Part3/README.md)
+
+---
+
+### Part 4: CD Pipeline & Deployment (M4) - 10 Marks
+
+**Objective**: Implement Continuous Deployment to target environment.
+
+**Tasks**:
+1. **Deployment Target**
+   - Kubernetes (kind/minikube) OR Docker Compose OR VM
+   - Infrastructure manifests (Deployment + Service YAML)
+
+2. **CD / GitOps Flow**
+   - Auto-deploy on main branch changes
+   - Pull image from registry and deploy
+
+3. **Smoke Tests**
+   - Post-deploy health check
+   - Prediction test
+   - Fail pipeline if tests fail
+
+**See**: [Part4/README.md](Part4/README.md)
+
+---
+
+### Part 5: Monitoring & Logs (M5) - 10 Marks
+
+**Objective**: Monitor deployed model and track performance.
+
+**Tasks**:
+1. **Basic Monitoring & Logging**
+   - Request/response logging (exclude sensitive data)
+   - Track metrics: request count, latency
+
+2. **Model Performance Tracking**
+   - Collect batch of requests with true labels
+   - Calculate post-deployment metrics
+
+**See**: [Part5/README.md](Part5/README.md)
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.9+
+- Docker
+- Git
+- DVC (for Part1)
+- kubectl + kind/minikube (for Part4, if using Kubernetes)
+
+### Setup
+
+1. **Clone Repository** (when created)
+   ```bash
+   git clone <repository-url>
+   cd Assignment2
+   ```
+
+2. **Set up Python Environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+3. **Initialize DVC** (Part1)
+   ```bash
+   cd Part1
+   dvc init
+   dvc add ../PetImages
+   ```
+
+4. **Follow Part-by-Part Instructions**
+   - Start with [Part1/README.md](Part1/README.md)
+   - Complete each part sequentially
+
+---
+
+## Workflow Overview
+
+```
+Part1: Data → Preprocessing → Training → MLflow Tracking
+   ↓
+Part2: Model → FastAPI → Docker → Containerized Service
+   ↓
+Part3: Tests → CI Pipeline → Build Image → Push to Registry
+   ↓
+Part4: CD Pipeline → Deploy → Kubernetes/Docker Compose → Smoke Tests
+   ↓
+Part5: Monitoring → Logging → Performance Tracking → Final Report
+```
+
+---
+
+## Key Technologies
+
+- **ML Framework**: PyTorch / TensorFlow
+- **Experiment Tracking**: MLflow
+- **API Framework**: FastAPI
+- **Containerization**: Docker
+- **CI/CD**: GitHub Actions
+- **Orchestration**: Kubernetes / Docker Compose
+- **Monitoring**: Prometheus + Grafana
+- **Testing**: pytest
+
+---
+
+## Documentation
+
+Each part contains detailed README with:
+- Objectives and tasks
+- Setup instructions
+- How to run
+- Expected outputs
+
+---
+
+## Notes
+
+- This is a **new GitHub repository** (separate from Assignment 1)
+- Dataset is already downloaded in `PetImages/` folder
+- Each part builds on the previous one
+- Follow the order: Part1 → Part2 → Part3 → Part4 → Part5
+
+---
+
+## License
+
+MIT License
