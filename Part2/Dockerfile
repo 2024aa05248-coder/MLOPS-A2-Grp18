@@ -1,5 +1,5 @@
-# Use Python 3.9 as base image
-FROM python:3.9-slim
+# Use PyTorch base image (already has PyTorch installed)
+FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
 
 # Set working directory
 WORKDIR /app
@@ -9,18 +9,19 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements file
-COPY Part2/requirements.txt .
+COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies (excluding torch/torchvision as they're in base image)
+RUN grep -v "^torch" requirements.txt | pip install --no-cache-dir -r /dev/stdin
+
+# Create necessary directories
+RUN mkdir -p Part1/src Part1/models
 
 # Copy application code
 COPY Part2/src/ ./src/
 COPY Part1/models/ ./models/
 COPY Part1/src/train_model.py ./Part1/src/train_model.py
-
-# Create necessary directories
-RUN mkdir -p Part1/src Part1/models
+COPY Part1/src/data_preprocessing.py ./Part1/src/data_preprocessing.py
 
 # Expose port
 EXPOSE 8000
