@@ -14,7 +14,6 @@ on:
 
 env:
   PYTHON_VERSION: '3.9'
-  CACHE_KEY: pip-${{ hashFiles('**/requirements.txt') }}
 
 jobs:
   # Job 1: Code Quality - Linting
@@ -91,7 +90,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ env.CACHE_KEY }}
+        key: pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           pip-
 
