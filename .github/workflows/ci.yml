@@ -316,9 +316,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests
 
+    - name: Pull latest Docker image from registry
+      run: |
+        echo "Pulling latest image from Docker Hub..."
+        docker pull ashmitad/cats-dogs-api:latest
+        docker images | grep cats-dogs-api
+
     - name: Start service with Docker Compose
       run: |
         cd Part4/docker-compose
+        echo "Stopping any existing containers..."
+        docker-compose down || true
+        echo "Starting service with latest image..."
         docker-compose up -d
         echo "Waiting for service to start..."
         sleep 30
