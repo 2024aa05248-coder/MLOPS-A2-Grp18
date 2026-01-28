@@ -16,7 +16,7 @@ from pathlib import Path
 import sys
 
 # Add parent directory to path to import model
-sys.path.append(str(Path(__file__).parent.parent.parent / 'Part1' / 'src'))
+sys.path.append(str(Path(__file__).parent.parent / 'Part1' / 'src'))
 from train_model import SimpleCNN
 
 app = FastAPI(title="Cats vs Dogs Classification API", version="1.0.0")
@@ -30,9 +30,9 @@ class_names = ['Cat', 'Dog']
 def load_model():
     """Load the trained model"""
     global model
-    
-    # Path to saved model
-    model_path = Path(__file__).parent.parent.parent / 'Part1' / 'models' / 'model.pt'
+
+    # Path to saved model (in Docker: /app/models/model.pt)
+    model_path = Path(__file__).parent.parent / 'models' / 'model.pt'
     
     if not model_path.exists():
         raise FileNotFoundError(f"Model not found at {model_path}")

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   api:
-    image: YOUR_DOCKER_USERNAME/cats-dogs-api:latest
+    image: ashmitad/cats-dogs-api:latest
     container_name: cats-dogs-api
     ports:
       - "8000:8000"
@@ -15,10 +15,11 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    resources:
-      limits:
-        cpus: '0.5'
-        memory: 512M
-      reservations:
-        cpus: '0.25'
-        memory: 256M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
