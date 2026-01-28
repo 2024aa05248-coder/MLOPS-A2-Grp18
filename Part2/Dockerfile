@@ -19,9 +19,11 @@ RUN mkdir -p Part1/src Part1/models
 
 # Copy application code
 COPY Part2/src/ ./src/
-COPY Part1/models/ ./models/
 COPY Part1/src/train_model.py ./Part1/src/train_model.py
 COPY Part1/src/data_preprocessing.py ./Part1/src/data_preprocessing.py
+
+# Copy models directory (will copy .gitkeep or actual models if they exist)
+COPY Part1/models/ ./models/
 
 # Expose port
 EXPOSE 8000
