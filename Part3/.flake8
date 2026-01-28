@@ -1,0 +1,62 @@
+[flake8]
+# Maximum line length
+max-line-length = 127
+
+# Maximum cyclomatic complexity
+max-complexity = 10
+
+# Ignore specific errors:
+# E128: continuation line under-indented for visual indent
+# E203: whitespace before ':'
+# E226: missing whitespace around arithmetic operator
+# E266: too many leading '#' for block comment
+# E402: module level import not at top of file
+# E501: line too long (handled by black)
+# E741: ambiguous variable name
+# F401: imported but unused
+# W291: trailing whitespace
+# W293: blank line contains whitespace
+# W503: line break before binary operator
+# W504: line break after binary operator
+ignore =
+    E128,
+    E203,
+    E226,
+    E266,
+    E402,
+    E501,
+    E741,
+    F401,
+    W291,
+    W293,
+    W503,
+    W504
+
+# Exclude directories
+exclude =
+    .git,
+    __pycache__,
+    venv,
+    env,
+    .venv,
+    build,
+    dist,
+    *.egg-info,
+    .tox,
+    .pytest_cache,
+    mlruns,
+    .dvc
+
+# Count errors
+count = True
+
+# Show source code for errors
+show-source = True
+
+# Show statistics
+statistics = True
+
+# Per-file ignores
+per-file-ignores =
+    __init__.py:F401,F403
+    test_*.py:F401,F811

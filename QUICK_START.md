@@ -7,8 +7,6 @@ This guide provides quick commands to get started with each part of Assignment 2
 ```bash
 # Initialize Git repository (required for DVC)
 git init
-git add .
-git commit -m "Initial commit"
 
 # Install Python dependencies
 pip install -r requirements.txt
@@ -18,17 +16,23 @@ pip install dvc
 
 # Initialize DVC (must be run from root directory)
 dvc init
-git add .dvc .dvcignore
-git commit -m "Initialize DVC"
+
+# Add files to Git (excluding large data that will be tracked by DVC)
+git add .
+git commit -m "Initial commit"
+
+# Remove PetImages from Git tracking and add to DVC instead
+git rm -r --cached PetImages
+git commit -m "Stop tracking PetImages with Git"
+dvc add PetImages
+git add PetImages.dvc .gitignore
+git commit -m "Add PetImages to DVC"
 ```
 
 ## Part 1: Model Development & Experiment Tracking
 
 ```bash
 cd Part1
-
-# Add dataset to DVC
-dvc add ../PetImages
 
 # Preprocess data
 python src/data_preprocessing.py
@@ -61,19 +65,82 @@ docker run -d -p 8000:8000 --name cats-dogs-api cats-dogs-api:latest
 curl http://localhost:8000/health
 ```
 
-## Part 3: CI Pipeline
+## Part 3: CI/CD Pipeline
+
+### Quick Setup (5 minutes)
 
 ```bash
+# 1. Configure GitHub Secrets (one-time setup)
+# Go to GitHub: Settings → Secrets and variables → Actions
+# Add two secrets:
+#   - DOCKER_USERNAME: Your Docker Hub username
+#   - DOCKER_PASSWORD: Your Docker Hub password/token
+
+# 2. Install testing and linting tools
+pip install pytest pytest-cov pytest-html flake8 pylint black isort
+
+# 3. Run linting locally
+flake8 Part1/src Part2/src
+pylint Part1/src Part2/src
+
+# 4. Auto-fix code formatting
+black Part1/src Part2/src
+isort Part1/src Part2/src
+
+# 5. Run tests locally
 cd Part3
+pytest tests/ -v --cov=../Part1/src --cov=../Part2/src --cov-report=html
 
-# Run tests locally
-pytest tests/ -v
+# 6. View coverage report
+# Windows: start htmlcov/index.html
+# macOS: open htmlcov/index.html
+# Linux: xdg-open htmlcov/index.html
 
-# Run tests with coverage
-pytest tests/ --cov=../Part1/src --cov=../Part2/src --cov-report=html
+# 7. Push to trigger CI/CD pipeline
+git add .
+git commit -m "Add CI/CD pipeline"
+git push origin main
 
-# CI runs automatically on push to GitHub
+# 8. View pipeline results
+# Go to GitHub → Actions tab → Click on workflow run
 ```
+
+### Pipeline Features
+
+✅ **Code Linting** - flake8, pylint, black, isort
+✅ **Unit Testing** - pytest with coverage reporting
+✅ **Model Training** - Optional, with MLflow tracking
+✅ **Docker Build** - Automated image building and push to Docker Hub
+✅ **Artifacts & Logging** - Test reports, coverage, models, logs
+
+### Pipeline Triggers
+
+- **Push** to `main` or `develop` branches
+- **Pull requests** to `main`
+- **Manual trigger** with optional model training
+
+### Quick Commands
+
+```bash
+# Before every push (recommended)
+black Part1/src Part2/src && isort Part1/src Part2/src
+pytest Part3/tests/ -v
+```
+
+### Documentation
+
+- 📋 [Quick Reference](Part3/QUICK_REFERENCE.md) - Command cheatsheet
+- 🚀 [Setup Guide](Part3/SETUP_GUIDE.md) - Step-by-step setup
+- 📚 [Full Documentation](Part3/CI_CD_DOCUMENTATION.md) - Detailed info
+
+### What Gets Generated
+
+After each pipeline run:
+- Linting reports (flake8, pylint, black, isort)
+- Test results with coverage (HTML + XML)
+- Training artifacts (if enabled)
+- Trained model files (if training runs)
+- Docker images pushed to Docker Hub
 
 ## Part 4: CD Pipeline & Deployment
 
