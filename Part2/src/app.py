@@ -91,8 +91,9 @@ async def startup_event():
         load_model()
         print("Model loaded successfully")
     except Exception as e:
-        print(f"Error loading model: {e}")
-        raise
+        print(f"Warning: Could not load model: {e}")
+        print("Service will start without model. Predictions will not be available.")
+        # Don't raise - allow service to start without model for CI/testing
 
 
 @app.get("/health")
@@ -109,7 +110,10 @@ async def health_check():
 async def predict(file: UploadFile = File(...)):
     """Predict image class"""
     if model is None:
-        raise HTTPException(status_code=503, detail="Model not loaded")
+        raise HTTPException(
+            status_code=503,
+            detail="Model not loaded. This may be a CI/test environment without the trained model."
+        )
     
     # Validate file type
     if not file.content_type.startswith('image/'):
