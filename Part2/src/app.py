@@ -16,7 +16,18 @@ from pathlib import Path
 import sys
 
 # Add parent directory to path to import model
-sys.path.append(str(Path(__file__).parent.parent / 'Part1' / 'src'))
+# Try Docker path first (/app/Part1/src), then local path
+current_file = Path(__file__)
+docker_path = current_file.parent.parent / 'Part1' / 'src'
+local_path = current_file.parent.parent.parent / 'Part1' / 'src'
+
+if docker_path.exists():
+    sys.path.append(str(docker_path))
+elif local_path.exists():
+    sys.path.append(str(local_path))
+else:
+    raise ImportError("Cannot find Part1/src directory")
+
 from train_model import SimpleCNN
 
 app = FastAPI(title="Cats vs Dogs Classification API", version="1.0.0")
@@ -31,11 +42,19 @@ def load_model():
     """Load the trained model"""
     global model
 
-    # Path to saved model (in Docker: /app/models/model.pt)
-    model_path = Path(__file__).parent.parent / 'models' / 'model.pt'
-    
-    if not model_path.exists():
-        raise FileNotFoundError(f"Model not found at {model_path}")
+    # Path to saved model - works in both Docker and local environments
+    current_file = Path(__file__)
+    # Try Docker path first (/app/models/model.pt)
+    docker_model_path = current_file.parent.parent / 'models' / 'model.pt'
+    # Then try local path
+    local_model_path = current_file.parent.parent.parent / 'Part1' / 'models' / 'model.pt'
+
+    if docker_model_path.exists():
+        model_path = docker_model_path
+    elif local_model_path.exists():
+        model_path = local_model_path
+    else:
+        raise FileNotFoundError(f"Model not found at {docker_model_path} or {local_model_path}")
     
     # Initialize model
     model = SimpleCNN(num_classes=2)
