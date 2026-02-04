@@ -177,18 +177,134 @@ docker-compose -f docker-compose/docker-compose.yml up -d
 python src/smoke_test.py
 ```
 
-## Part 5: Monitoring
+## Part 5: Monitoring, Logs & Performance Tracking
+
+### Quick Start (5 minutes)
 
 ```bash
 cd Part5
 
-# Start monitoring stack
+# 1. Install monitoring dependencies
+pip install prometheus-client requests scikit-learn matplotlib seaborn
+
+# 2. Start monitoring stack (API + Prometheus + Grafana)
 docker-compose -f docker-compose-monitoring.yml up -d
 
-# Access:
-# - Prometheus: http://localhost:9090
-# - Grafana: http://localhost:3000 (admin/admin)
-# - API: http://localhost:8000
+# 3. Verify services are running
+docker-compose -f docker-compose-monitoring.yml ps
+
+# 4. Check API health
+curl http://localhost:8001/health
+
+# 5. Test prediction
+curl -X POST "http://localhost:8001/predict" \
+  -F "file=@../PetImages/Cat/0.jpg"
+
+# 6. View metrics
+curl http://localhost:8001/metrics
+```
+
+### Access Monitoring Services
+
+- **API**: http://localhost:8001
+- **API Docs**: http://localhost:8001/docs
+- **Prometheus**: http://localhost:9090
+- **Grafana**: http://localhost:3000 (login: `admin` / `admin`)
+
+### View Grafana Dashboard
+
+```bash
+# 1. Open Grafana at http://localhost:3000
+# 2. Login: admin / admin
+# 3. Navigate to: Dashboards → "Cats vs Dogs API Monitoring"
+# 4. View 8 panels showing:
+#    - Request rate and total requests
+#    - P95 latency
+#    - Request rate by status code
+#    - Latency percentiles (P50, P95, P99)
+#    - Prediction distribution (Cat vs Dog)
+#    - Model inference latency
+```
+
+### Collect Performance Metrics
+
+```bash
+# Collect 100 predictions from test dataset
+python src/metrics_collector.py \
+  --api-url http://localhost:8000 \
+  --test-data ../Part1/data/processed/test_data.json \
+  --output predictions_results.json \
+  --limit 100
+
+# Calculate performance metrics
+python src/performance_tracker.py \
+  --predictions predictions_results.json \
+  --output performance_metrics.json \
+  --plot \
+  --plot-output confusion_matrix.png
+
+# Compare with training metrics (optional)
+python src/performance_tracker.py \
+  --predictions predictions_results.json \
+  --compare ../Part1/models/training_metrics.json
+```
+
+### View Logs
+
+```bash
+# View API logs (structured JSON)
+docker logs cats-dogs-api-monitoring
+
+# Follow logs in real-time
+docker logs -f cats-dogs-api-monitoring
+
+# View last 50 lines
+docker logs --tail 50 cats-dogs-api-monitoring
+```
+
+### Stop Monitoring Stack
+
+```bash
+# Stop all services
+docker-compose -f docker-compose-monitoring.yml down
+
+# Stop and remove volumes (clean slate)
+docker-compose -f docker-compose-monitoring.yml down -v
+```
+
+### What Gets Generated
+
+After running Part 5:
+- **Real-time monitoring**: Grafana dashboard with 8 visualization panels
+- **Metrics**: Prometheus metrics at `/metrics` endpoint
+- **Performance analysis**: 
+  - `predictions_results.json` - Collected predictions and true labels
+  - `performance_metrics.json` - Accuracy, precision, recall, F1-score
+  - `confusion_matrix.png` - Visual confusion matrix
+- **Logs**: Structured JSON logs in Docker container
+
+### Features Implemented ✅
+
+✅ **Request/Response Logging** - Excludes sensitive data (no image data)
+✅ **Prometheus Metrics** - Request count, latency, predictions
+✅ **Grafana Dashboard** - Pre-configured with 8 panels
+✅ **Performance Tracking** - Accuracy, precision, recall, F1, confusion matrix
+✅ **Drift Detection** - Compares with training metrics (5% threshold)
+
+### Troubleshooting
+
+```bash
+# API not starting? Check model exists
+ls ../Part1/models/model.pt
+
+# Prometheus not scraping? Check targets
+# Open http://localhost:9090/targets
+
+# Grafana dashboard not loading? Restart Grafana
+docker-compose -f docker-compose-monitoring.yml restart grafana
+
+# Metrics collection fails? Ensure API is running
+curl http://localhost:8000/health
 ```
 
 ## Common Issues

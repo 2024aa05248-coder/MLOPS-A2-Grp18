@@ -97,3 +97,12 @@ tmp/
 temp/
 *.tmp
 /PetImages
+
+#Part1 - data tracked by dvc
+Part1/data/processed/
+Part1/data/raw/
+
+# Part 5 - Generated outputs
+Part5/predictions_results.json
+Part5/performance_metrics.json
+Part5/confusion_matrix.png

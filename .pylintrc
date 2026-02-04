@@ -1,0 +1,75 @@
+[MASTER]
+# Python code to execute to initialize the master process
+init-hook='import sys; sys.path.append(".")'
+
+# Add files or directories to the blacklist
+ignore=venv,env,.venv,build,dist,mlruns,.dvc,__pycache__,.git
+
+# Use multiple processes for faster analysis
+jobs=4
+
+[MESSAGES CONTROL]
+# Disable specific messages
+disable=
+    C0111,  # missing-docstring
+    C0103,  # invalid-name
+    R0903,  # too-few-public-methods
+    R0913,  # too-many-arguments
+    W0212,  # protected-access
+    W0511,  # fixme
+    R0801,  # duplicate-code
+
+[FORMAT]
+# Maximum number of characters on a single line
+max-line-length=127
+
+# Maximum number of lines in a module
+max-module-lines=1000
+
+# Indent string
+indent-string='    '
+
+[DESIGN]
+# Maximum number of arguments for function / method
+max-args=10
+
+# Maximum number of attributes for a class
+max-attributes=15
+
+# Maximum number of boolean expressions in an if statement
+max-bool-expr=5
+
+# Maximum number of branch for function / method body
+max-branches=12
+
+# Maximum number of locals for function / method body
+max-locals=15
+
+# Maximum number of parents for a class
+max-parents=7
+
+# Maximum number of public methods for a class
+max-public-methods=20
+
+# Maximum number of return / yield for function / method body
+max-returns=6
+
+# Maximum number of statements in function / method body
+max-statements=50
+
+[BASIC]
+# Good variable names
+good-names=i,j,k,x,y,z,ex,Run,_,df,lr,fc
+
+# Regular expression for constants
+const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+
+[REPORTS]
+# Set the output format
+output-format=text
+
+# Activate full reports
+reports=yes
+
+# Display a score
+score=yes
