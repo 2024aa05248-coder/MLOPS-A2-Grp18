@@ -3,20 +3,6 @@
 ## Objective
 Monitor the deployed model and submit a consolidated package of all artifacts.
 
-## Tasks Completed
-
-### 1. Basic Monitoring & Logging ✅
-- ✅ Request/response logging in inference service (excludes sensitive data)
-- ✅ Track metrics: request count, latency (p50, p95, p99), error rate
-- ✅ Prometheus + Grafana monitoring stack
-- ✅ Structured JSON logging with timestamps
-
-### 2. Model Performance Tracking (Post-Deployment) ✅
-- ✅ Metrics collector to gather predictions vs true labels
-- ✅ Performance tracker for calculating accuracy, precision, recall, F1
-- ✅ Confusion matrix generation
-- ✅ Comparison with training metrics
-
 ## Project Structure
 
 ```
@@ -157,13 +143,13 @@ docker-compose -f docker-compose-monitoring.yml down -v
 }
 ```
 
-### What We Log ✅
+### What We Log
 - Request metadata (method, endpoint, status code)
 - Response times (latency in milliseconds)
 - Prediction results (class, confidence)
 - Errors and exceptions with stack traces
 
-### What We DON'T Log ❌
+### What We DON'T Log
 - Image data (too large, not useful)
 - Sensitive user information
 - Full request payloads
@@ -277,19 +263,3 @@ python src/metrics_collector.py --api-url http://localhost:8000 \
   --test-data ../Part1/data/processed/test_data.json \
   --limit 10
 ```
-
-## Assignment Requirements Met ✅
-
-### M5 Task 1: Basic Monitoring & Logging ✅
-- ✅ Request/response logging enabled (excludes sensitive data)
-- ✅ Tracks request count via Prometheus counter
-- ✅ Tracks latency via Prometheus histogram
-- ✅ Prometheus + Grafana monitoring stack
-- ✅ Pre-configured dashboard with 8 visualization panels
-
-### M5 Task 2: Model Performance Tracking ✅
-- ✅ Collects batch of requests with true labels
-- ✅ Calculates accuracy, precision, recall, F1-score
-- ✅ Generates confusion matrix
-- ✅ Compares with training metrics
-- ✅ Detects performance drift (5% threshold)
