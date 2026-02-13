@@ -33,13 +33,13 @@ def test_health_check(require_model=True):
         if require_model:
             assert response.json()["model_loaded"] == True, "Model should be loaded"
         else:
-            print(f"⚠ Model loaded: {response.json()['model_loaded']} (model check skipped in CI)")
+            print(f"Model loaded: {response.json()['model_loaded']} (model check skipped in CI)")
 
-        print("✓ Health check passed\n")
+        print("Health check passed\n")
         return True
 
     except Exception as e:
-        print(f"✗ Health check failed: {e}\n")
+        print(f"Health check failed: {e}\n")
         return False
 
 
@@ -65,7 +65,7 @@ def test_prediction():
                 break
     
     if not test_image_path:
-        print("⚠ No test image found. Skipping prediction test.")
+        print("No test image found. Skipping prediction test.")
         return True
     
     try:
@@ -87,11 +87,11 @@ def test_prediction():
         assert result["prediction"] in ["Cat", "Dog"], "Prediction should be Cat or Dog"
         assert 0 <= result["confidence"] <= 1, "Confidence should be between 0 and 1"
         
-        print("✓ Prediction test passed\n")
+        print("Prediction test passed\n")
         return True
     
     except Exception as e:
-        print(f"✗ Prediction test failed: {e}\n")
+        print(f"Prediction test failed: {e}\n")
         return False
 
 
@@ -109,7 +109,7 @@ def main():
 
     print(f"Testing API at: {API_URL}")
     if ci_mode:
-        print("⚠ Running in CI mode (model checks relaxed)\n")
+        print("Running in CI mode (model checks relaxed)\n")
     else:
         print("")
 
@@ -118,17 +118,17 @@ def main():
 
     # Skip prediction test in CI if model is not available
     if ci_mode:
-        print("⚠ Skipping prediction test in CI mode\n")
+        print("Skipping prediction test in CI mode\n")
     else:
         results.append(test_prediction())
 
     print("=" * 50)
     if all(results):
-        print("✓ All smoke tests passed!")
+        print("All smoke tests passed!")
         print("=" * 50)
         sys.exit(0)
     else:
-        print("✗ Some smoke tests failed!")
+        print("Some smoke tests failed!")
         print("=" * 50)
         sys.exit(1)
 

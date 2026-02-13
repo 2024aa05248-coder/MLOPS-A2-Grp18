@@ -17,7 +17,7 @@ def test_health():
     print(f"Response: {json.dumps(response.json(), indent=2)}")
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
-    print("✓ Health check passed\n")
+    print("Health check passed\n")
 
 
 def test_predict():
@@ -41,7 +41,7 @@ def test_predict():
                 break
     
     if not test_image_path:
-        print("⚠ No test image found. Skipping prediction test.")
+        print("No test image found. Skipping prediction test.")
         return
     
     print(f"Using test image: {test_image_path}")
@@ -58,7 +58,7 @@ def test_predict():
     assert "prediction" in result
     assert "probabilities" in result
     assert "confidence" in result
-    print("✓ Prediction test passed\n")
+    print("Prediction test passed\n")
 
 
 if __name__ == "__main__":
@@ -74,5 +74,5 @@ if __name__ == "__main__":
         print("All tests passed!")
         print("=" * 50)
     except Exception as e:
-        print(f"✗ Test failed: {e}")
+        print(f"Test failed: {e}")
         exit(1)

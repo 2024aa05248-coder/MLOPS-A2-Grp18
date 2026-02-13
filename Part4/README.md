@@ -50,7 +50,7 @@ Part4/
 
 ## Deployment Options
 
-### Option 1: Kubernetes (Recommended)
+### Option 1: Kubernetes
 
 #### Prerequisites
 ```bash

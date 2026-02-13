@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: YOUR_DOCKER_USERNAME/cats-dogs-api:latest
+        image: ashmitad/cats-dogs-api:latest
         ports:
         - containerPort: 8000
         resources:
