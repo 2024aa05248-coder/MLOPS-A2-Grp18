@@ -126,9 +126,8 @@ jobs:
             data = json.load(f)
             summary = data.get('summary', {})
             print(f\"- **Total Tests**: {summary.get('total', 0)}\")
-            print(f\"- **Passed**: {summary.get('passed', 0)} ✅\")
-            print(f\"- **Failed**: {summary.get('failed', 0)} ❌\")
-            print(f\"- **Duration**: {summary.get('duration', 0):.2f}s\")
+            print(f\"- **Passed**: {summary.get('passed', 0)}\")
+            print(f\"- **Failed**: {summary.get('failed', 0)}\")
         " >> $GITHUB_STEP_SUMMARY
         fi
 
