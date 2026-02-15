@@ -29,20 +29,7 @@ def test_predict():
     petimages_dir = base_dir / 'PetImages'
     
     # Try to find a cat or dog image
-    test_image_path = None
-    for folder in ['Cat', 'Dog']:
-        folder_path = petimages_dir / folder
-        if folder_path.exists():
-            for img_file in folder_path.iterdir():
-                if img_file.suffix.lower() in ['.jpg', '.jpeg', '.png']:
-                    test_image_path = img_file
-                    break
-            if test_image_path:
-                break
-    
-    if not test_image_path:
-        print("No test image found. Skipping prediction test.")
-        return
+    test_image_path = Path(__file__).parent.parent / 'PetImages' / 'Dog' / '100.jpg'
     
     print(f"Using test image: {test_image_path}")
     

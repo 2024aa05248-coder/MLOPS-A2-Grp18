@@ -84,9 +84,6 @@ pip install fastapi uvicorn python-multipart pillow torch torchvision
 ### 1. Local Development (without Docker)
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
-
 # Run FastAPI server
 uvicorn src.app:app --host 0.0.0.0 --port 8000
 ```
