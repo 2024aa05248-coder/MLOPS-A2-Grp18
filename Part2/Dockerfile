@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements file
 COPY requirements.txt .
 
-# Install Python dependencies (excluding torch/torchvision as they're in base image)
-RUN grep -v "^torch" requirements.txt | pip install --no-cache-dir -r /dev/stdin
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Create necessary directories
 RUN mkdir -p Part1/src Part1/models

@@ -10,6 +10,7 @@ import requests
 import sys
 from pathlib import Path
 import json
+import random
 
 # Default API URL (can be overridden via environment variable)
 API_URL = "http://localhost:8000"
@@ -52,21 +53,21 @@ def test_prediction():
     # Find a test image
     base_dir = Path(__file__).parent.parent.parent
     petimages_dir = base_dir / 'PetImages'
-    
+
     test_image_path = None
-    for folder in ['Cat', 'Dog']:
+    image_files = []
+
+    # Collect all valid image files
+    for folder in ['Dog', 'Cat']:
         folder_path = petimages_dir / folder
         if folder_path.exists():
             for img_file in folder_path.iterdir():
                 if img_file.suffix.lower() in ['.jpg', '.jpeg', '.png']:
-                    test_image_path = img_file
-                    break
-            if test_image_path:
-                break
-    
-    if not test_image_path:
-        print("No test image found. Skipping prediction test.")
-        return True
+                    image_files.append(img_file)
+
+    # Pick a random one
+    if image_files:
+        test_image_path = random.choice(image_files)
     
     try:
         print(f"Using test image: {test_image_path}")
