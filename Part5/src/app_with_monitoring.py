@@ -18,8 +18,11 @@ import sys
 from pathlib import Path
 
 # Import original app components
-sys.path.append(str(Path(__file__).parent.parent.parent / 'Part2' / 'src'))
-from app import load_model, preprocess_image, model, device, class_names
+from src import app as app_module
+from src.app import load_model, preprocess_image, device, class_names
+
+# Access model through the module, not direct import
+model = app_module.model
 
 # Configure logging
 logging.basicConfig(
@@ -61,6 +64,9 @@ async def startup_event():
     """Load model on startup"""
     try:
         load_model()
+        # Re-reference model after loading
+        global model
+        model = app_module.model
         logger.info("Model loaded successfully", extra={"device": str(device)})
     except Exception as e:
         logger.error(f"Error loading model: {e}")
@@ -108,7 +114,7 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "model_loaded": model is not None,
+        "model_loaded": app_module.model is not None,  # Check through module
         "device": str(device)
     }
 
@@ -122,7 +128,7 @@ async def metrics():
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     """Predict image class with logging"""
-    if model is None:
+    if app_module.model is None:  # Check through module
         raise HTTPException(status_code=503, detail="Model not loaded")
     
     if not file.content_type.startswith('image/'):

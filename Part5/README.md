@@ -22,12 +22,51 @@ Part5/
 └── docker-compose-monitoring.yml      # Full monitoring stack
 ```
 
+## Architecture Overview
+
+### Docker Setup
+- **Dockerfile Used**: Part2/Dockerfile (shared between Part2 and Part5)
+- **Build Context**: Parent directory (`..`) to access all project files
+- **Requirements**: Root `requirements.txt` (includes prometheus-client)
+- **App Structure**: 
+  - Part2/src/app.py → Copied to `/app/src/app.py` in container
+  - Part5/src/app_with_monitoring.py → Copied to `/app/Part5/src/app_with_monitoring.py` in container
+- **Import Structure**: `app_with_monitoring.py` imports from `src.app` (the copied Part2 app)
+
+### How It Works
+
+**Build Process:**
+1. Docker Compose sets build context to parent directory (`context: ..`)
+2. Part2/Dockerfile is used for building
+3. Root `requirements.txt` is copied (includes all dependencies)
+4. Part2/src/ is copied to `/app/src/` in the container
+5. Part5/src/ is copied to `/app/Part5/src/` in the container
+6. Part1 files (model, preprocessing) are copied to their respective locations
+
+**Runtime Process:**
+1. Docker Compose overrides the CMD to run `Part5.src.app_with_monitoring:app`
+2. `app_with_monitoring.py` imports the base app from `src.app` (Part2's app)
+3. Additional monitoring middleware and endpoints are added
+4. The app starts with full monitoring capabilities
+
+**Why This Approach:**
+- Reuses Part2's Dockerfile (DRY principle)
+- Maintains backward compatibility with Part2
+- Part5 enhances Part2's functionality without duplicating code
+- Single requirements.txt at root for consistent dependency management
+
+### Key Changes from Part2
+1. Added prometheus-client metrics endpoints
+2. Implemented structured JSON logging
+3. Added request/response middleware for tracking
+4. Container runs Part5's `app_with_monitoring.py` instead of Part2's `app.py`
+
 ## Quick Start
 
 ### Prerequisites
 ```bash
-# Install required Python packages
-pip install prometheus-client requests scikit-learn matplotlib seaborn
+# Ensure root requirements.txt has prometheus-client
+# (Already included in root requirements.txt)
 
 # Ensure Docker is running
 docker --version
@@ -38,6 +77,10 @@ docker --version
 ```bash
 # Navigate to Part5 directory
 cd Part5
+
+# Build from Part2 Dockerfile with monitoring enhancements
+# The docker-compose uses Part2/Dockerfile with context set to parent directory
+docker-compose -f docker-compose-monitoring.yml build --no-cache api
 
 # Start the monitoring stack (API + Prometheus + Grafana)
 docker-compose -f docker-compose-monitoring.yml up -d
@@ -224,6 +267,67 @@ docker-compose -f docker-compose-monitoring.yml down -v
    - View with: `docker logs cats-dogs-api-monitoring`
 
 ## Troubleshooting
+
+### Import Errors (ModuleNotFoundError)
+```bash
+# If you see "No module named 'app'" or "No module named 'Part2'"
+# This means the Dockerfile didn't copy files correctly
+
+# Verify the imports in app_with_monitoring.py are:
+# from src import app as app_module
+# from src.app import load_model, preprocess_image, device, class_names
+
+# Rebuild with no cache to ensure fresh build
+docker-compose -f docker-compose-monitoring.yml down
+docker-compose -f docker-compose-monitoring.yml build --no-cache api
+docker-compose -f docker-compose-monitoring.yml up -d
+```
+
+### API Container Not Starting
+```bash
+# Check if model exists
+ls ../Part1/models/model.pt
+
+# Check Docker logs for detailed error
+docker logs cats-dogs-api-monitoring
+
+# Common issues:
+# 1. Model file missing - Train model first in Part1
+# 2. Import errors - Verify app_with_monitoring.py imports from 'src'
+# 3. Missing dependencies - Ensure root requirements.txt has prometheus-client
+```
+
+### Prometheus Shows 404 Error
+```bash
+# This means the /metrics endpoint isn't available
+# Check if the API container is running the correct app
+
+# Verify the command in docker-compose:
+# command: ["uvicorn", "Part5.src.app_with_monitoring:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Test the metrics endpoint directly:
+curl http://localhost:8000/metrics
+
+# If 404, the container might be running Part2's app instead of Part5's
+# Rebuild and ensure the command override is working
+docker-compose -f docker-compose-monitoring.yml down
+docker-compose -f docker-compose-monitoring.yml up -d
+docker logs cats-dogs-api-monitoring
+```
+
+### Build Context Issues
+```bash
+# If you see "COPY failed: file not found"
+# This means the build context is wrong
+
+# The docker-compose should have:
+# build:
+#   context: ..
+#   dockerfile: Part2/Dockerfile
+
+# This sets the build context to parent directory (Mlops-Assignment2)
+# All COPY commands in Dockerfile are relative to this parent directory
+```
 
 ### API Not Starting
 ```bash

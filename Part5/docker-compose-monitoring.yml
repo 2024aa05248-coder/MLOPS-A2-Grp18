@@ -2,10 +2,13 @@ version: '3.8'
 
 services:
   api:
-    image: ashmitad/cats-dogs-api:latest
+    build:
+      context: ..
+      dockerfile: Part2/Dockerfile
+    command: ["uvicorn", "Part5.src.app_with_monitoring:app", "--host", "0.0.0.0", "--port", "8000"]
     container_name: cats-dogs-api-monitoring
     ports:
-      - "8001:8000"
+      - "8000:8000"
     environment:
       - ENVIRONMENT=production
     restart: unless-stopped

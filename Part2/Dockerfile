@@ -20,6 +20,7 @@ RUN mkdir -p Part1/src Part1/models
 
 # Copy application code
 COPY Part2/src/ ./src/
+COPY Part5/src/ ./Part5/src/
 COPY Part1/src/train_model.py ./Part1/src/train_model.py
 COPY Part1/src/data_preprocessing.py ./Part1/src/data_preprocessing.py
 
