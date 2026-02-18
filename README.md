@@ -1,4 +1,4 @@
-# Assignment 2: End-to-End MLOps Pipeline for Image Classification
+# An End-to-End MLOps Pipeline for Image Classification
 
 ## Project Overview
 
@@ -18,7 +18,7 @@ Cats and Dogs classification dataset (PetImages folder)
 ## Project Structure
 
 ```
-Assignment2/
+Image Classification/
 ├── README.md                    # This file
 ├── PetImages/                   # Dataset (Cats and Dogs images)
 │   ├── Cat/                     # Cat images
@@ -50,9 +50,9 @@ Assignment2/
 
 ---
 
-## Assignment Breakdown
+## Breakdown
 
-### Part 1: Model Development & Experiment Tracking (M1) - 10 Marks
+### Part 1: Model Development & Experiment Tracking (M1)
 
 **Objective**: Build a baseline model, track experiments, and version all artifacts.
 
@@ -72,7 +72,7 @@ Assignment2/
 
 ---
 
-### Part 2: Model Packaging & Containerization (M2) - 10 Marks
+### Part 2: Model Packaging & Containerization (M2) 
 
 **Objective**: Package the trained model into a reproducible, containerized service.
 
@@ -92,7 +92,7 @@ Assignment2/
 
 ---
 
-### Part 3: CI Pipeline (M3) - 10 Marks
+### Part 3: CI Pipeline (M3) 
 
 **Objective**: Implement Continuous Integration for automated testing and image building.
 
@@ -113,7 +113,7 @@ Assignment2/
 
 ---
 
-### Part 4: CD Pipeline & Deployment (M4) - 10 Marks
+### Part 4: CD Pipeline & Deployment (M4) - 
 
 **Objective**: Implement Continuous Deployment to target environment.
 
@@ -135,7 +135,7 @@ Assignment2/
 
 ---
 
-### Part 5: Monitoring & Logs (M5) - 10 Marks
+### Part 5: Monitoring & Logs (M5) - 
 
 **Objective**: Monitor deployed model and track performance.
 
@@ -167,7 +167,6 @@ Assignment2/
 1. **Clone Repository** (when created)
    ```bash
    git clone <repository-url>
-   cd Assignment2
    ```
 
 2. **Set up Python Environment**
@@ -217,27 +216,5 @@ Part5: Monitoring → Logging → Performance Tracking → Final Report
 - **Monitoring**: Prometheus + Grafana
 - **Testing**: pytest
 
----
-
-## Documentation
-
-Each part contains detailed README with:
-- Objectives and tasks
-- Setup instructions
-- How to run
-- Expected outputs
 
 ---
-
-## Notes
-
-- This is a **new GitHub repository** (separate from Assignment 1)
-- Dataset is already downloaded in `PetImages/` folder
-- Each part builds on the previous one
-- Follow the order: Part1 → Part2 → Part3 → Part4 → Part5
-
----
-
-## License
-
-MIT License
