@@ -1,4 +1,4 @@
-# An End-to-End MLOps Pipeline for Image Classification
+# Assignment 2: An End-to-End MLOps Pipeline for Image Classification
 
 ## Project Overview
 
@@ -216,5 +216,22 @@ Part5: Monitoring → Logging → Performance Tracking → Final Report
 - **Monitoring**: Prometheus + Grafana
 - **Testing**: pytest
 
+---
+
+## The Team
+
+| Name                | Roll No.    | Contribution |
+|---------------------|-------------|--------------|
+| Ashmita De          | 2024AA05248 | 100%         |
+| Ayush Goyal         | 2024AA05463 | 100%         |
+| Srinivasan V        | 2024AA05292 | 100%         |
+| Saurabh Vikas Kolhe | 2024AA05350 | 100%         |
+---
+
+## License
+
+This project is for educational purposes as part of MLOps coursework.
 
 ---
+
+**Built by Group18**
