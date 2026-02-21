@@ -222,6 +222,10 @@ Part5: Monitoring → Logging → Performance Tracking → Final Report
 
 ---
 
+## All Links
+- **Demo**: [Video Demo Link](https://drive.google.com/file/d/1Cv8IVx-Ro7E1Azqq_Oa1oj28SzH5dxW3/view?usp=drive_link)
+- **Model Artifacts**: [Google Drive Link](https://drive.google.com/drive/folders/1aryPsaw1uYxcW0Xsl2hFWSshdMkPpaiW?usp=drive_link)
+
 ## The Team
 
 | Name                | Roll No.    | Contribution |
