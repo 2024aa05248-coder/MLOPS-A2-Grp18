@@ -106,12 +106,12 @@ git push origin main
 ```
 
 ### Pipeline Features
-
-✅ **Code Linting** - flake8, pylint, black, isort
-✅ **Unit Testing** - pytest with coverage reporting
-✅ **Model Training** - Optional, with MLflow tracking
-✅ **Docker Build** - Automated image building and push to Docker Hub
-✅ **Artifacts & Logging** - Test reports, coverage, models, logs
+ 
+**Code Linting** - flake8, pylint, black, isort
+**Unit Testing** - pytest with coverage reporting
+**Model Training** - Optional, with MLflow tracking
+**Docker Build** - Automated image building and push to Docker Hub
+**Artifacts & Logging** - Test reports, coverage, models, logs
 
 ### Pipeline Triggers
 
@@ -129,9 +129,9 @@ pytest Part3/tests/ -v
 
 ### Documentation
 
-- 📋 [Quick Reference](Part3/QUICK_REFERENCE.md) - Command cheatsheet
-- 🚀 [Setup Guide](Part3/SETUP_GUIDE.md) - Step-by-step setup
-- 📚 [Full Documentation](Part3/CI_CD_DOCUMENTATION.md) - Detailed info
+- [Quick Reference](Part3/QUICK_REFERENCE.md) - Command cheatsheet
+- [Setup Guide](Part3/SETUP_GUIDE.md) - Step-by-step setup
+- [Full Documentation](Part3/CI_CD_DOCUMENTATION.md) - Detailed info
 
 ### What Gets Generated
 
@@ -214,16 +214,16 @@ curl http://localhost:8001/metrics
 ### View Grafana Dashboard
 
 ```bash
-# 1. Open Grafana at http://localhost:3000
-# 2. Login: admin / admin
-# 3. Navigate to: Dashboards → "Cats vs Dogs API Monitoring"
-# 4. View 8 panels showing:
-#    - Request rate and total requests
-#    - P95 latency
-#    - Request rate by status code
-#    - Latency percentiles (P50, P95, P99)
-#    - Prediction distribution (Cat vs Dog)
-#    - Model inference latency
+ 1. Open Grafana at http://localhost:3000
+ 2. Login: admin / admin
+ 3. Navigate to: Dashboards → "Cats vs Dogs API Monitoring"
+ 4. View 8 panels showing:
+    - Request rate and total requests
+    - P95 latency
+    - Request rate by status code
+    - Latency percentiles (P50, P95, P99)
+    - Prediction distribution (Cat vs Dog)
+    - Model inference latency
 ```
 
 ### Collect Performance Metrics
@@ -283,29 +283,6 @@ After running Part 5:
   - `confusion_matrix.png` - Visual confusion matrix
 - **Logs**: Structured JSON logs in Docker container
 
-### Features Implemented ✅
-
-✅ **Request/Response Logging** - Excludes sensitive data (no image data)
-✅ **Prometheus Metrics** - Request count, latency, predictions
-✅ **Grafana Dashboard** - Pre-configured with 8 panels
-✅ **Performance Tracking** - Accuracy, precision, recall, F1, confusion matrix
-✅ **Drift Detection** - Compares with training metrics (5% threshold)
-
-### Troubleshooting
-
-```bash
-# API not starting? Check model exists
-ls ../Part1/models/model.pt
-
-# Prometheus not scraping? Check targets
-# Open http://localhost:9090/targets
-
-# Grafana dashboard not loading? Restart Grafana
-docker-compose -f docker-compose-monitoring.yml restart grafana
-
-# Metrics collection fails? Ensure API is running
-curl http://localhost:8000/health
-```
 
 ## Common Issues
 

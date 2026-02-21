@@ -61,14 +61,14 @@ Image Classification/
 **Tasks**:
 1. **Data & Code Versioning**
    - Git for source code versioning
-   - DVC (or Git-LFS) for dataset versioning
+   - DVC for dataset versioning
 
 2. **Model Building**
-   - Implement baseline model (CNN or logistic regression)
-   - Save model in standard format (.pkl, .pt, .h5)
+   - Implement baseline model (CNN)
+   - Save model in standard format (.pt)
 
 3. **Experiment Tracking**
-   - MLflow/Neptune for logging runs, parameters, metrics, artifacts
+   - MLflow for logging runs, parameters, metrics, artifacts
 
 **See**: [Part1/README.md](Part1/README.md)
 
@@ -105,11 +105,11 @@ Image Classification/
    - pytest for test execution
 
 2. **CI Setup**
-   - GitHub Actions / GitLab CI / Jenkins / Tekton
+   - GitHub Actions workflow for CI
    - Pipeline: checkout → install → test → build image
 
 3. **Artifact Publishing**
-   - Push Docker image to registry (Docker Hub, GHCR)
+   - Push Docker image to registry (Docker Hub)
 
 **See**: [Part3/README.md](Part3/README.md)
 
@@ -121,7 +121,7 @@ Image Classification/
 
 **Tasks**:
 1. **Deployment Target**
-   - Kubernetes (kind/minikube) OR Docker Compose OR VM
+   - Kubernetes (minikube) and Docker Compose
    - Infrastructure manifests (Deployment + Service YAML)
 
 2. **CD / GitOps Flow**
@@ -145,6 +145,8 @@ Image Classification/
 1. **Basic Monitoring & Logging**
    - Request/response logging (exclude sensitive data)
    - Track metrics: request count, latency
+   - Prometheus for metrics collection
+   - Grafana for visualization
 
 2. **Model Performance Tracking**
    - Collect batch of requests with true labels
@@ -162,19 +164,19 @@ Image Classification/
 - Docker
 - Git
 - DVC (for Part1)
-- kubectl + kind/minikube (for Part4, if using Kubernetes)
+- kubectl + minikube (for Part4, if using Kubernetes)
 
 ### Setup
 
 1. **Clone Repository** (when created)
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/2024aa05248-coder/MLOPS-A2-Grp18.git>
    ```
 
 2. **Set up Python Environment**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
