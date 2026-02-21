@@ -9,6 +9,8 @@ Binary image classification (Cats vs Dogs) for a pet adoption platform.
 
 ### Dataset
 Cats and Dogs classification dataset (PetImages folder)
+- **Download**: [Kaggle Dogs vs Cats](https://www.kaggle.com/datasets/bhavikjikadara/dog-and-cat-classification-dataset)
+- **Important**: After downloading, extract and place the `Cat` and `Dog` folders inside a `PetImages` folder in the root directory of this project
 - Pre-processed to 224x224 RGB images for standard CNNs
 - Split into train/validation/test sets (80%/10%/10%)
 - Data augmentation for better generalization
